@@ -1,0 +1,72 @@
+.content-top {
+  width: 100%;
+  margin: 10px 0;
+  text-align: right;
+}
+.content-body table {
+  width: 100%;
+}
+.content-body thead {
+  background-color: #ccc;
+  border-top: 1px solid #000;
+}
+.content-body th {
+  padding: 3px 0;
+  font-weight: bold;
+  border-right: 1px solid #aaa;
+  border-bottom: 1px solid #aaa;
+}
+.content-body th:last-child {
+  border-right: 0;
+}
+.content-body td {
+  padding: 3px 0;
+  border-bottom: 1px solid #aaa;
+  text-align: center;
+}
+.content-bottom {
+  width: 100%;
+  margin: 10px 0;
+  text-align: right;
+}
+.content-bottom button {
+  display: inline-block;
+  padding: 3px;
+  box-sizing: border-box;
+  background-color: dodgerblue;
+  color: #fff;
+  border: 0;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+  margin-bottom: 20px;
+  font-size: 10px;
+}
+.pagination .prev {
+  padding-right: 10px;
+  cursor: pointer;
+}
+.pagination .next {
+  padding-left: 10px;
+  cursor: pointer;
+}
+.pagination .page-list {
+  display: flex;
+}
+.pagination .page-list .page-num {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+.pagination .page-list .page-num:hover {
+  box-sizing: border-box;
+  text-decoration: underline;
+  border: 1px solid #333;
+}

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>블루월넛 채용과제 - 게시판</title>
+    <link rel="stylesheet" href="../public/css/base/reset.css">
+    <link rel="stylesheet" href="../public/css/base/common.css">
+    <link rel="stylesheet" href="../public/css/pages/write.css">
+    <link rel="stylesheet" href="../public/css/lib/quill.snow.css">
+</head>
+
+<body>
+    <div id="container">
+        <!-- [Start] 게시물 입력 폼 -->
+        <form id="writeForm">
+            <!-- [Start] 게시물 제목 -->
+            <div>
+                <input type="text" name="title" id="title" placeholder="제목">
+            </div>
+            <!-- [End] 게시물 제목 -->
+            <!-- [Start] 게시물 내용 -->
+            <div>
+                <div id="editor"></div>
+                <div><span class="total-bytes"></span> Bytes</div>
+            </div>
+            <!-- [End] 게시물 내용 -->
+            <!-- [Start] 게시물 작성자 -->
+            <div>
+                <input type="text" name="writer" id="writer" placeholder="작성자">
+            </div>
+            <!-- [End] 게시물 작성자 -->
+            <!-- [Start] 저장 / 취소 버튼 -->
+            <span>
+                <button type="submit" id="save">저장</button>
+                <button type="reset" onclick="history.back();">취소</button>
+            </span>
+            <!-- [End] 저장 / 취소 버튼 -->
+        </form>
+        <!-- [End] 게시물 입력 폼 -->
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.0-rc.5/dist/quill.js"></script>
+<script type="module">
+    import { getData } from "../public/js/list.js";
+    import { checkBytes, isEmpty, masking } from "../public/js/function.js";
+    import { Board } from "../public/js/board.js";
+
+    const quill = new Quill('#editor', {
+        placeholder: '내용을 입력해주세요.',
+        theme: 'snow',
+    });
+
+    const writeForm = document.querySelector('#writeForm');
+    const writeFormList = document.querySelectorAll("#writeForm > div");
+    const idx = location.search.split("=")[1]; // 선택한 게시물 인덱스
+
+    if (!idx) {
+        // Write
+        function saveHandler(e) {
+            e.preventDefault();
+            const title = e.target.title.value;
+            const writer = e.target.writer.value;
+            const content = document.getElementById("editor").innerText;
+            const date = new Date().toLocaleDateString();
+
+            try {
+                // 데이터 가져오기
+                const listObj = getData();
+
+                // 객체 추가
+                const idx = listObj.length + 1;
+                const recode = new Board(idx, title, writer, content, date);
+                listObj.push(recode);
+
+                // 데이터 저장
+                sessionStorage.setItem("list", JSON.stringify(listObj));
+                location.href = "/board/list.html";
+            } catch (e) {
+                console.error(e.message);
+            }
+        }
+        writeForm.addEventListener("submit", saveHandler);
+    } else {
+        // Modify
+
+        const listObj = getData(); // 데이터
+        const list = listObj[idx-1]; // 선택한 게시물 데이터
+
+        // 수정 데이터 가져오기
+        for (let i=0; i<writeFormList.length; i++) {
+            if (i !== 1) {
+                const element = writeFormList[i].childNodes[1];
+                const id = element.name;
+                element.value = list[id];
+            } else {
+                const content = document.querySelector("#editor > div > p");
+                content.innerHTML = list.content;
+            }
+        }
+
+        // 수정
+        function modifyHandler(e) {
+            e.preventDefault();
+            const title = e.target.title.value;
+            const writer = e.target.writer.value;
+            const content = document.getElementById("editor").innerText;
+
+            try {
+                isEmpty(title, writer, content);
+                list.title = title;
+                list.writer = writer;
+                list.content = content;
+
+                const recode = JSON.stringify(listObj);
+                sessionStorage.setItem("list", recode);
+                location.href = '/board/list.html';
+            } catch (e) {
+                console.error(e.message);
+            }
+        }
+
+        writeForm.addEventListener("submit", modifyHandler);
+    }
+
+    // 텍스트 입력 시 바이트 수 세기
+    const totalBytes = document.querySelector('.total-bytes');
+    let length = 0;
+    totalBytes.innerHTML = length;
+
+    quill.on('text-change', () => {
+        const string = document.getElementById("editor").innerText;
+
+        if (string === '\n') {
+            length = 0;
+        } else {
+            length = checkBytes(string);
+        }
+
+        totalBytes.innerHTML = length;
+    });
+</script>
+
+</html>

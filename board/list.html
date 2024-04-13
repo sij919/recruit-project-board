@@ -1,0 +1,99 @@
+<!-- Created by injang seon -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>블루월넛 채용과제 - 게시판</title>
+    <link rel="stylesheet" href="../public/css/base/reset.css">
+    <link rel="stylesheet" href="../public/css/base/common.css">
+    <link rel="stylesheet" href="../public/css/pages/list.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+    <div id="container">
+        <!-- [Start] 콘텐츠 - 페이지 수 선택 -->
+        <div class="content-top">
+            <select name="page" id="page" onchange="selectChange()"></select>
+        </div>
+        <!-- [End] 콘텐츠 - 페이지 수 선택 -->
+
+        <!-- [Start] 콘텐츠 - 테이블 영역 -->
+        <div class="content-body">
+            <table>
+                <colgroup>
+                    <col width="10%" />
+                    <col width="40%" />
+                    <col width="20%" />
+                    <col width="20%" />
+                    <col width="10%" />
+                </colgroup>
+                <thead>
+                    <th>순번</th>
+                    <th>제목</th>
+                    <th>작성자</th>
+                    <th>작성일</th>
+                    <th>조회수</th>
+                </thead>
+                <tbody>
+                    <!-- 리스트 -->
+                </tbody>
+            </table>
+        </div>
+        <!-- [End] 콘텐츠 - 테이블 영역 -->
+
+        <!-- [Start] 콘텐츠 - 글쓰기 버튼 -->
+        <div class="content-bottom">
+            <button type="button" onclick="location.href='./write.html';">회원 글쓰기</button>
+        </div>
+        <!-- [End] 콘텐츠 - 글쓰기 버튼 -->
+
+        <!-- [Start] 페이지 번호 -->
+        <div class="pagination">
+            <div class="prev">
+                <i class="fa-solid fa-angle-left"></i>
+            </div>
+            <div class="page-list">
+                <span class="page-num">1</span>
+            </div>
+            <div class="next">
+                <i class="fa-solid fa-angle-right"></i>
+            </div>
+        </div>
+        <!-- [End] 페이지 번호 -->
+    </div>
+</body>
+
+</html>
+<script type="module" src="../public/js/list.js"></script>
+<script type="module" src="../public/js/pagination.js"></script>
+<script type="module">
+    import { setList, getData } from "../public/js/list.js";
+
+    // 페이지 노출 개수 옵션
+    const pageSelect = document.querySelector("#page");
+
+    for (let i = 10; i <= 50; i+=10) {
+        pageSelect.innerHTML += `<option value=${i}>${i}</option>`;
+    }
+
+    // 리스트 출력
+    const data = getData();
+    const list = setList();
+
+    // 세션 스토리지에 데이터가 없을 경우
+    // 초기 데이터 세팅
+    if (data === null) {
+        sessionStorage.setItem("list", JSON.stringify(list));
+    }
+
+    selectChange();
+
+    
+
+</script>

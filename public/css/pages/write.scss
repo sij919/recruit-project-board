@@ -1,0 +1,43 @@
+#writeForm {
+    #title {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    #editor {
+        height: 300px;
+    }
+
+    div:nth-child(2) {
+        div:nth-child(3) {
+            text-align: right;
+            margin-top: 5px;
+            .total-bytes {
+                font-weight: bold;
+            }
+        }
+    }
+
+    #writer {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    > span {
+        display: inline-block;
+        width: 100%;
+        text-align: right;
+        margin-top: 30px;
+
+        button {
+            color: #fff;
+            border: 0;
+            &:nth-child(1) {
+                background-color: dodgerblue;
+            }
+            &:nth-child(2) {
+                background-color: #888;
+            }
+        }
+    }
+}

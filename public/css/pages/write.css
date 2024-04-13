@@ -1,0 +1,34 @@
+#writeForm #title {
+  width: 100%;
+  margin-bottom: 10px;
+}
+#writeForm #editor {
+  height: 300px;
+}
+#writeForm div:nth-child(2) div:nth-child(3) {
+  text-align: right;
+  margin-top: 5px;
+}
+#writeForm div:nth-child(2) div:nth-child(3) .total-bytes {
+  font-weight: bold;
+}
+#writeForm #writer {
+  width: 100%;
+  margin-top: 10px;
+}
+#writeForm > span {
+  display: inline-block;
+  width: 100%;
+  text-align: right;
+  margin-top: 30px;
+}
+#writeForm > span button {
+  color: #fff;
+  border: 0;
+}
+#writeForm > span button:nth-child(1) {
+  background-color: dodgerblue;
+}
+#writeForm > span button:nth-child(2) {
+  background-color: #888;
+}
